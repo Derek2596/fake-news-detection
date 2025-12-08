@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fake News Detector</title>
+</head>
+<body>
+  <h2>Paste article text:</h2>
+  <textarea id="text" rows="10" cols="80"></textarea><br><br>
+
+  <button onclick="send()">Check</button>
+
+  <h3>Results:</h3>
+  <ul id="results-list"></ul>
+
+  <script>
+    async function send() {
+      const text = document.getElementById("text").value;
+
+      const response = await fetch("/predict", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({text})
+      });
+
+      const data = await response.json();
+      const resultsList = document.getElementById("results-list");
+
+      // Clear previous results
+      resultsList.innerHTML = "";
+
+      // Populate list with model predictions
+      data.results.forEach(result => {
+        const li = document.createElement("li");
+        li.innerText = `${result.model}: Prediction = ${result.prediction}, Confidence = ${result.confidence.toFixed(3)}`;
+        resultsList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
