@@ -3,7 +3,7 @@
 ### Running the Web App
 
 ```
-git clone <>
+git clone https://github.com/Derek2596/fake-news-detection.git
 cd fake-news-detection
 pip install -r requirements.txt
 uvicorn app.main:app --reload
